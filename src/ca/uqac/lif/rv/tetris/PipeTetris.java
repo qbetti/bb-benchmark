@@ -6,21 +6,18 @@ import ca.uqac.lif.cep.Pullable;
 import ca.uqac.lif.cep.functions.ApplyFunction;
 import ca.uqac.lif.cep.io.ReadLines;
 import ca.uqac.lif.cep.ltl.Troolean;
-import ca.uqac.lif.cep.ltl.TrooleanCast;
 import ca.uqac.lif.cep.tmf.Fork;
 import ca.uqac.lif.cep.tuples.FetchAttribute;
 import ca.uqac.lif.cep.tuples.TupleFeeder;
 import ca.uqac.lif.rv.CSV;
 import ca.uqac.lif.rv.Eventually;
 import ca.uqac.lif.rv.SplitParamToArray;
-import ca.uqac.lif.rv.TrooleanToBoolean;
-import jdk.nashorn.internal.runtime.PrototypeObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class PipeLinesRemoved {
+public class PipeTetris {
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -30,7 +27,6 @@ public class PipeLinesRemoved {
         Fork forkTuple = new Fork(2);
 
         Connector.connect(rl, tf, forkTuple);
-
 
         Processor getMethodName = new ApplyFunction(new FetchAttribute(CSV.Fields.METHOD_NAME));
         Processor getParamValues = new ApplyFunction(new FetchAttribute(CSV.Fields.METHOD_PARAM_VALUES));
@@ -51,13 +47,9 @@ public class PipeLinesRemoved {
         Connector.connect(forkMethodName, 1, hasFallingFinished, 0);
         Connector.connect(splitValues, 0, hasFallingFinished, 1);
 
-        Processor not = new ApplyFunction(Troolean.NOT_FUNCTION);
-        Connector.connect(hasFallingFinished, not);
-
         Processor and = new ApplyFunction(Troolean.AND_FUNCTION);
         Connector.connect(generateNewPiece, 0, and, 0);
-        Connector.connect(not, 0, and, 1);
-
+        Connector.connect(hasFallingFinished, 0, and, 1);
 
         Processor eventually = new ApplyFunction(new Eventually());
         Connector.connect(and, eventually);
@@ -65,24 +57,33 @@ public class PipeLinesRemoved {
         Processor notEventually = new ApplyFunction(Troolean.NOT_FUNCTION);
         Connector.connect(eventually, notEventually);
 
+        Processor endingProc = notEventually;
 
 
+        Pullable p = endingProc.getPullableOutput();
 
-        Processor end = notEventually;
+        long timeStart = System.currentTimeMillis();
+        int i = 2;
+        boolean isViolated = false;
 
-        Pullable p = end.getPullableOutput();
+        System.out.println("Running...");
 
-        int i = 1;
         while (p.hasNext()) {
-            i++;
            Troolean.Value v = (Troolean.Value) p.pull();
-           System.out.println(i+" "+v);
 
-            if (v == Troolean.Value.FALSE) {
-                System.out.print("");
-            }
+           if (v == Troolean.Value.FALSE && !isViolated)
+           {
+               System.out.println("Property  is violated at line " + i);
+               isViolated = true;
+           }
+           i++;
         }
 
+        if (!isViolated) {
+            System.out.println("Property is verified!");
+        }
+
+        System.out.println("Done in " + (System.currentTimeMillis() - timeStart) + " ms");
 
     }
 
