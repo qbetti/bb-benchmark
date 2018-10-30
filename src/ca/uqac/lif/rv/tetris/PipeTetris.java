@@ -21,7 +21,7 @@ public class PipeTetris {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        InputStream is = new FileInputStream("C:\\Users\\quent\\Downloads\\TraceTetris1 (1).csv");
+        InputStream is = new FileInputStream("./Tetris.csv");
         ReadLines rl = new ReadLines(is);
         TupleFeeder tf = new TupleFeeder();
         Fork forkTuple = new Fork(2);
