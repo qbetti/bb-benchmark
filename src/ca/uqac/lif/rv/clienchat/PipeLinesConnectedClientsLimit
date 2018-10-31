@@ -89,9 +89,9 @@ public class PipeLinesClientsLimit {
 			Boolean v = (Boolean) p.pull();
 
 			if (!v)
-				System.out.println("Property  is violated at line " + i);
+				System.out.println("Line: "+i+", Property violated." );
 			else
-				System.out.println("Property  respected at line " + i);
+				System.out.println("Line: "+i+", Property respected." );
 			i++;
 		}
 
