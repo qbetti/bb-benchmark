@@ -23,8 +23,8 @@ public class IsKey extends UnaryFunction<String[], Boolean> {
         if (!isKey)
             return false;
 
-        String encodedAESKey = (String) paramValues[0];
-        String messageToEncrypt = (String) paramValues[1];
+        String messageToEncrypt = (String) paramValues[0];
+        String encodedAESKey = (String) paramValues[1];
 
         List<String> messages = messagesByAESKey.get(encodedAESKey);
 
