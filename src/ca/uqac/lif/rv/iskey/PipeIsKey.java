@@ -21,7 +21,7 @@ public class PipeIsKey {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        InputStream is = new FileInputStream("testAES.csv");
+        InputStream is = new FileInputStream("./traces/AESenc.csv");
         ReadLines rl = new ReadLines(is);
         TupleFeeder tf = new TupleFeeder();
         Fork forkTuple = new Fork(3);

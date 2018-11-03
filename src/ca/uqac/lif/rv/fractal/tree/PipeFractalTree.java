@@ -19,7 +19,8 @@ public class PipeFractalTree {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        InputStream is = new FileInputStream("./FractalTree.csv");
+//        InputStream is = new FileInputStream("./traces/FractalTree-Violated.csv");
+        InputStream is = new FileInputStream("./traces/FractalTree.csv");
         Processor rl = new ReadLines(is);
         Processor tf = new TupleFeeder();
 

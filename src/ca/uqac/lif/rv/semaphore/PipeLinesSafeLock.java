@@ -29,7 +29,7 @@ public class PipeLinesSafeLock {
 		sigListRea.add("java.util.concurrent.Semaphore.release");
 
 
-		InputStream is = new FileInputStream("SemaphoreTrace.txt");
+		InputStream is = new FileInputStream("./traces/Semaphore.csv");
 		ReadLines rl = new ReadLines(is);
 		TupleFeeder tf = new TupleFeeder();
 		Fork forkTuple = new Fork(3);

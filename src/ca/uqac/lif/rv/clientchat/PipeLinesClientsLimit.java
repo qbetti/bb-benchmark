@@ -34,7 +34,7 @@ public class PipeLinesClientsLimit {
 		ArrayList<String> sigListObjectCaller = new ArrayList<String>();
 		sigListObjectCaller.add("[javachat.network.Server$ClientSocket");
 
-		InputStream is = new FileInputStream("Trace1.txt");
+		InputStream is = new FileInputStream("./traces/JavaChat.csv");
 		ReadLines rl = new ReadLines(is);
 		TupleFeeder tf = new TupleFeeder();
 		Fork forkTuple = new Fork(3);
